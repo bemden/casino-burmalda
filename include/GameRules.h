@@ -2,6 +2,7 @@
 
 namespace GameRules {
 inline constexpr int startingCarrots = 250;
+inline constexpr int minimumBet = 50;
 inline constexpr int dealerClueGoal = 500;
 inline constexpr int dealerCooperationCost = 5000;
 inline constexpr int magnetCost = 100;
