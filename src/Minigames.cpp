@@ -43,14 +43,22 @@ bool askBet(Player& player, const std::string& game, const std::string& rules,
     UI::drawHeader(game);
     std::cout << "\n" << rules << "\n"
               << "Баланс: " << player.carrots
-              << " морковок. Можно поставить весь баланс; 0 — назад.\n\n";
-    if (player.carrots < 1) {
-        std::cout << "Для ставки нужна хотя бы 1 морковка.\n";
+              << " морковок. Минимальная ставка — "
+              << GameRules::minimumBet
+              << "; можно поставить весь баланс. 0 — назад.\n\n";
+    if (player.carrots < GameRules::minimumBet) {
+        std::cout << "Для ставки нужно хотя бы "
+                  << GameRules::minimumBet << " морковок.\n";
         UI::pause();
         return false;
     }
-    if (!UI::readInt(" Ставка > ", bet, 0, player.carrots)) return false;
-    return bet > 0;
+    while (true) {
+        if (!UI::readInt(" Ставка > ", bet, 0, player.carrots)) return false;
+        if (bet == 0) return false;
+        if (bet >= GameRules::minimumBet) return true;
+        std::cout << "Минимальная ставка — " << GameRules::minimumBet
+                  << " морковок.\n";
+    }
 }
 
 void showRoundResult(const std::string& message, Player& player) {
